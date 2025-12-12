@@ -152,11 +152,7 @@ std::vector<std::string> GestorGrafo::obtener_rutas_completas(int id_archivo) {
 int GestorGrafo::calcular_espacio_ocupado(int id_directorio) {
     NodoGrafo* nodo = (id_directorio == 0) ? raiz_ptr : buscar_nodo_grafo(id_directorio);
     
-    std::cout << "\n--- DEBUG CALCULAR ESPACIO ---\n";
-    std::cout << "Calculando ID: " << id_directorio << "\n";
-    
     if (!nodo || !nodo->es_directorio()) {
-        std::cout << "ID " << id_directorio << " no es un directorio o no existe. Retornando 0.\n";
         return 0;
     }
 
@@ -165,38 +161,28 @@ int GestorGrafo::calcular_espacio_ocupado(int id_directorio) {
     int nh = dir->get_num_hijos();
     int* hijos = dir->lista_hijos();
     
-    std::cout << "Numero de hijos reportados (nh): " << nh << "\n";
-
     for (int i = 0; i < nh; i++) {
         int id_hijo = hijos[i];
-        std::cout << "  Procesando hijo ID: " << id_hijo;
         
         NodoGrafo* hijo = buscar_nodo_grafo(id_hijo); 
         
         if (!hijo) {
-            std::cout << " -> NO ENCONTRADO en ArbolBPlus. Skip.\n";
             continue;
         }
 
         if (hijo->es_directorio()) {
-            std::cout << " -> Es Directorio. Llamando recursivo...\n";
             int espacio_dir = calcular_espacio_ocupado(id_hijo);
             total += espacio_dir;
-            std::cout << "  (ID: " << id_directorio << ") Total parcial tras dir: " << total << "\n";
         } else {
             NodoArchivo* archivo = dynamic_cast<NodoArchivo*>(hijo);
             if (archivo) {
                 int tamaño = archivo->get_tamaño();
                 total += tamaño;
-                std::cout << " -> Es Archivo (Tam: " << tamaño << "). Total parcial: " << total << "\n";
             }
         }
     }
     
     if (hijos != nullptr) delete[] hijos;
     
-    std::cout << "FINALIZADO ID " << id_directorio << ". Total final: " << total << " bytes.\n";
-    std::cout << "------------------------------\n";
-
     return total;
 }
