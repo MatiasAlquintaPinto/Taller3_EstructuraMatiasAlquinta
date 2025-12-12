@@ -15,12 +15,13 @@ private:
     void splitHoja(NodoBHoja* hoja);
     void insertarEnPadre(NodoBPlusBase* izquierda, int clave, NodoBPlusBase* derecha);
     void splitInterno(NodoBInterno* interno);
-
+    
     NodoBInterno* encontrarPadre(NodoBPlusBase* actual, NodoBPlusBase* hijo);
 
 public:
     ArbolBPlus(int orden);
     void insertar(int clave, NodoGrafo* dato);
+    NodoGrafo* buscar(int clave, int& accesos) const;
 };
 
 #endif
