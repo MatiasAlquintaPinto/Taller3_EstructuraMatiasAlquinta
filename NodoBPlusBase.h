@@ -2,23 +2,25 @@
 #define NODO_BPLUS_BASE_H
 
 class NodoBPlusBase {
-protected:
-    int* claves;    
-    int orden;      
-    bool es_hoja;   
+private:
+    int* claves;
+    int orden;
+    bool es_hoja;
+    int num_claves;
 
 public:
-    NodoBPlusBase(int orden, bool es_hoja)
-        : orden(orden), es_hoja(es_hoja)
-    {
-        claves = new int[orden];
-    }
+    NodoBPlusBase(int orden, bool es_hoja);
+    virtual ~NodoBPlusBase();
 
-    virtual ~NodoBPlusBase() {
-        delete[] claves;
-    }
+    bool esHoja() const;
+    int getOrden() const;
+    int getNumClaves() const;
 
-    bool esHoja() const { return es_hoja; }
+    int getClave(int i) const;
+    void setClave(int i, int valor);
+
+    void aumentarNumClaves();
+    void disminuirNumClaves();
 };
 
 #endif
